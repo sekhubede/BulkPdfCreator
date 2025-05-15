@@ -1,81 +1,86 @@
+# BulkPdfCreator
 
-# 🗂️ BulkPdfCreator
-
-**BulkPdfCreator** is a .NET Console application that reads 50,000+ records from an Excel file and generates dummy PDFs named after a specific column (e.g., invoice numbers). It's designed for batch processing and leverages fully open-source, permissively licensed libraries.
+BulkPdfCreator is a C# Console application that reads an Excel file with thousands of records and generates dummy PDF files using values from a specified column. It's ideal for generating mock document sets for testing or archiving scenarios.
 
 ---
 
 ## 🚀 Features
 
-- Read large Excel `.xlsx` files
-- Extract a specific column for file naming
-- Generate individual PDF files for each record
-- Configurable input/output paths and content template
-- Uses only MIT-licensed or non-commercial-friendly libraries
+- 🔍 Reads Excel files using `ClosedXML`
+- 🧾 Generates PDF files using `QuestPDF`
+- 📁 Extracts a specific column to use as the filename
+- 🧵 Supports parallel file generation with configurable concurrency
+- 🛠 Sanitizes file names to avoid OS-level conflicts
+- 📦 Fully open-source and non-commercial library usage
 
 ---
 
-## 📁 Project Structure
+## 🛠 Technologies Used
 
-```
-BulkPdfCreator/
-│
-├── appsettings.json           # Configuration file
-├── Program.cs                 # Main application bootstrap
-├── Services/
-│   ├── ExcelReader.cs         # Reads Excel and extracts values
-│   └── PdfGenerator.cs        # Generates PDFs
-│
-└── Utilities/
-    └── FileHelper.cs          # Sanitizes filenames
-```
+| Technology     | Purpose                     | License Type       |
+|----------------|-----------------------------|--------------------|
+| [ClosedXML](https://github.com/ClosedXML/ClosedXML) | Excel file reading         | MIT (Open-source)    |
+| [QuestPDF](https://www.questpdf.com/license/)     | PDF generation              | Community License (Free for < $1M revenue) |
 
 ---
 
-## ⚙️ Configuration
-
-Edit the `appsettings.json`:
+## ⚙️ Configuration (`appsettings.json`)
 
 ```json
 {
-  "ExcelFilePath": "C:\\Data\\records.xlsx",
-  "OutputDirectory": "C:\\Data\\GeneratedPdfs",
-  "TargetColumnName": "InvoiceNumber",
-  "PdfContentTemplate": "This is a dummy PDF for {filename}."
+  "ExcelFilePath": "C:\\Path\\To\\Your\\records.xlsx",
+  "OutputDirectory": "C:\\Path\\To\\Output\\Directory",
+  "TargetColumnName": "Name or title",
+  "PdfContentTemplate": "This is a dummy PDF for {filename}.",
+  "ParallelDegreeOfConcurrency": 4
 }
+```
+
+- `ExcelFilePath`: Path to the source Excel file
+- `OutputDirectory`: Where generated PDFs will be stored
+- `TargetColumnName`: Header name of the column to extract values from
+- `PdfContentTemplate`: Template used as content in the generated PDFs. Use `{filename}` as a placeholder.
+- `ParallelDegreeOfConcurrency`: Number of parallel PDF generations (default: 4 or based on CPU count)
+
+---
+
+## 📦 Project Structure
+
+```
+BulkPdfCreator/
+├── Services/
+│   ├── ExcelReader.cs       # Extracts values from Excel
+│   └── PdfGenerator.cs      # Handles PDF file creation
+├── Utilities/
+│   └── FileHelper.cs        # Sanitizes file names
+├── Startup/
+│   └── Program.cs           # Main entry point
+├── appsettings.json         # Config file
+└── README.md
 ```
 
 ---
 
-## 🧪 Getting Started
+## 🔄 Roadmap
 
-1. Clone the repository
-2. Run `dotnet restore` to install dependencies
-3. Update `appsettings.json` with your paths
-4. Run the project
-
----
-
-## 🧾 Libraries Used
-
-| Library      | Purpose               | License |
-|--------------|------------------------|---------|
-| [ClosedXML](https://github.com/ClosedXML/ClosedXML) | Read `.xlsx` Excel files | MIT |
-| [QuestPDF](https://github.com/QuestPDF/QuestPDF)     | Generate PDFs | Community (Free for < $1M orgs), otherwise Commercial |
-
-> ℹ️ This project uses the **Community license** of QuestPDF. Please review their [license page](https://www.questpdf.com/license/) to ensure compliance for your use case.
+- [x] Excel column extraction
+- [x] Dummy PDF generation
+- [x] File name sanitization
+- [x] Parallel file generation
+- [ ] Logging and error handling
+- [ ] Progress bar or metrics
+- [ ] CLI input support
 
 ---
 
-## ✅ TODO / Next Steps
+## 🤝 License
 
-- [ ] Add parallel file generation
-- [ ] Add CLI overrides for config values
-- [ ] Log success/failure per PDF
-- [ ] Performance monitoring
+This tool uses open-source libraries under MIT and permissive community licenses. Please check each linked project for compliance in your environment.
 
 ---
 
-## 📜 License
+## 🙌 Acknowledgements
 
-This project is open-source under the **MIT License**.
+Thanks to the creators and maintainers of [ClosedXML](https://github.com/ClosedXML/ClosedXML) and [QuestPDF](https://www.questpdf.com) for their powerful, developer-friendly libraries.
+
+---
