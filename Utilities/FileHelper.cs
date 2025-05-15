@@ -1,6 +1,5 @@
-﻿namespace BulkPdfCreator.Utilities
+﻿namespace BulkPdfCreator.Utilities;
+
+public class FileHelper
 {
-    public class FileHelper
-    {
-    }
 }

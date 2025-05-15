@@ -1,5 +1,9 @@
 ﻿namespace BulkPdfCreator.Services;
 
-public class ExcelReader
+public class ExcelReader(string filePath)
 {
+    public string[] ReadColumn(string columnName)
+    {
+        throw new NotImplementedException();
+    }
 }
