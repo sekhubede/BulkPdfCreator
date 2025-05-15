@@ -1,5 +1,8 @@
 ﻿using BulkPdfCreator.Services;
 using Microsoft.Extensions.Configuration;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -33,6 +36,11 @@ foreach (var fileName in fileNames)
     Console.WriteLine($"Generated: {fileName}.pdf");
 }
 
-Console.WriteLine("All PDFs generated.");
-Console.WriteLine("(press any <key> to exit...");
+Console.ForegroundColor = ConsoleColor.Gray;
+
+Console.WriteLine("\nAll PDFs generated.");
+Console.WriteLine("\n(press any <key> to exit...");
+
+Console.ResetColor();
+
 Console.ReadKey();
