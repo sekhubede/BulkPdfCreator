@@ -2,9 +2,9 @@
 
 namespace BulkPdfCreator.Services;
 
-public class ExcelReader(string filePath)
+public class ExcelReader(string filePath, string columnName)
 {
-    public List<string> ReadColumn(string columnName)
+    public List<string> ExtractColumnValues()
     {
         var values = new List<string>();
 

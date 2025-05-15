@@ -1,46 +1,58 @@
-﻿using BulkPdfCreator.Services;
+﻿using BulkPdfCreator.Models;
+using BulkPdfCreator.Services;
 using Microsoft.Extensions.Configuration;
 using QuestPDF.Infrastructure;
+using System.Collections.Concurrent;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-var configuration = new ConfigurationBuilder()
+// Load settings
+var config = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false)
     .Build();
 
-var excelFilePath = configuration["ExcelFilePath"];
-var outputDirectory = configuration["OutputDirectory"];
-var targetColumnName = configuration["TargetColumnName"];
-var pdfContentTemplate = configuration["PdfContentTemplate"];
+var settings = config.Get<AppSettings>();
 
-if (!File.Exists(excelFilePath))
+// Initialize services
+var reader = new ExcelReader(settings.ExcelFilePath, settings.TargetColumnName);
+var generator = new PdfGenerator(settings.OutputDirectory, settings.PdfContentTemplate);
+
+
+// Read data
+Console.WriteLine("Reading Excel...\n");
+var values = reader.ExtractColumnValues();
+Console.WriteLine($"Found {values.Count} records.");
+
+// Track failures
+var failedItems = new ConcurrentBag<string>();
+
+// Parallel file generation
+Console.WriteLine("Generating PDFs in parallel...");
+
+Parallel.ForEach(values, new ParallelOptions { MaxDegreeOfParallelism = settings.ParallelDegreeOfConcurrency }, value =>
 {
-    Console.WriteLine($"Excel file not found at path: {excelFilePath}");
-    return;
+    try
+    {
+        generator.CreatePdf(value);
+    }
+    catch (Exception ex)
+    {
+        failedItems.Add($"{value}: {ex.Message}");
+    }
+});
+
+Console.WriteLine("PDF generation completed.");
+
+if (failedItems.Count > 0)
+{
+    Console.WriteLine($"Some files failed to generate ({failedItems.Count})");
+
+    foreach (var fail in failedItems)
+        Console.WriteLine($" - {fail}");
 }
 
-if (!Directory.Exists(outputDirectory))
-{
-    Directory.CreateDirectory(outputDirectory);
-}
-
-var reader = new ExcelReader(excelFilePath);
-var fileNames = reader.ReadColumn(targetColumnName);
-
-var generator = new PdfGenerator(outputDirectory, pdfContentTemplate);
-
-foreach (var fileName in fileNames)
-{
-    generator.CreatePdf(fileName);
-    Console.WriteLine($"Generated: {fileName}.pdf");
-}
-
-Console.ForegroundColor = ConsoleColor.Gray;
-
-Console.WriteLine("\nAll PDFs generated.");
+Console.ForegroundColor = ConsoleColor.DarkGray;
 Console.WriteLine("\n(press any <key> to exit...");
-
 Console.ResetColor();
-
 Console.ReadKey();
