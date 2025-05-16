@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkPdfCreator", "BulkPdfCreator.csproj", "{50C8B0CA-64B4-408A-873E-E1EBFDFD57C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkPdfCreator", "BulkPdfCreator.csproj", "{50C8B0CA-64B4-408A-873E-E1EBFDFD57C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkPdfCreator.Tests", "..\BulkPdfCreator.Tests\BulkPdfCreator.Tests.csproj", "{037F08C7-F390-4624-8723-317FABBF4C0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{50C8B0CA-64B4-408A-873E-E1EBFDFD57C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50C8B0CA-64B4-408A-873E-E1EBFDFD57C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50C8B0CA-64B4-408A-873E-E1EBFDFD57C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037F08C7-F390-4624-8723-317FABBF4C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037F08C7-F390-4624-8723-317FABBF4C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037F08C7-F390-4624-8723-317FABBF4C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037F08C7-F390-4624-8723-317FABBF4C0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
